@@ -1,0 +1,50 @@
+name: Request Google Indexing
+
+on:
+  workflow_dispatch:
+
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install requests google-auth
+
+      - name: Run indexing request
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+        run: |
+          echo "$GOOGLE_APPLICATION_CREDENTIALS" > key.json
+          python3 <<EOF
+import json
+import requests
+from google.oauth2 import service_account
+from google.auth.transport.requests import AuthorizedSession
+
+SCOPES = ["https://www.googleapis.com/auth/indexing"]
+credentials = service_account.Credentials.from_service_account_file("key.json", scopes=SCOPES)
+authed_session = AuthorizedSession(credentials)
+
+url = "https://github.com/lisamonozlai/analytics-for-policy-and-program-design"
+
+body = {
+  "url": url,
+  "type": "URL_UPDATED"
+}
+
+response = authed_session.post(
+  "https://indexing.googleapis.com/v3/urlNotifications:publish",
+  json=body
+)
+
+print("Status:", response.status_code)
+print("Response:", response.text)
+EOF
