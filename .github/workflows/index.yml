@@ -18,33 +18,28 @@ jobs:
       - name: Install dependencies
         run: pip install requests google-auth
 
+      - name: Create script file
+        run: |
+          echo "import json" > script.py
+          echo "import requests" >> script.py
+          echo "from google.oauth2 import service_account" >> script.py
+          echo "from google.auth.transport.requests import AuthorizedSession" >> script.py
+          echo "" >> script.py
+          echo "SCOPES = ['https://www.googleapis.com/auth/indexing']" >> script.py
+          echo "credentials = service_account.Credentials.from_service_account_file('key.json', scopes=SCOPES)" >> script.py
+          echo "authed_session = AuthorizedSession(credentials)" >> script.py
+          echo "" >> script.py
+          echo "url = 'https://github.com/lisamonozlai/analytics-for-policy-and-program-design'" >> script.py
+          echo "" >> script.py
+          echo "body = {'url': url, 'type': 'URL_UPDATED'}" >> script.py
+          echo "" >> script.py
+          echo "response = authed_session.post('https://indexing.googleapis.com/v3/urlNotifications:publish', json=body)" >> script.py
+          echo "print('Status:', response.status_code)" >> script.py
+          echo "print('Response:', response.text)" >> script.py
+
       - name: Run indexing request
         env:
           GOOGLE_APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
         run: |
           echo "$GOOGLE_APPLICATION_CREDENTIALS" > key.json
-          python3 <<EOF
-import json
-import requests
-from google.oauth2 import service_account
-from google.auth.transport.requests import AuthorizedSession
-
-SCOPES = ["https://www.googleapis.com/auth/indexing"]
-credentials = service_account.Credentials.from_service_account_file("key.json", scopes=SCOPES)
-authed_session = AuthorizedSession(credentials)
-
-url = "https://github.com/lisamonozlai/analytics-for-policy-and-program-design"
-
-body = {
-  "url": url,
-  "type": "URL_UPDATED"
-}
-
-response = authed_session.post(
-  "https://indexing.googleapis.com/v3/urlNotifications:publish",
-  json=body
-)
-
-print("Status:", response.status_code)
-print("Response:", response.text)
-EOF
+          python3 script.py
