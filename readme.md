@@ -1,71 +1,153 @@
-# Using Python to Support Policy Decision‑Making
+# Data-to-Decision: Translating Analysis into Policy Insight
 ##### Author: [Lisa Monozlai](https://www.linkedin.com/in/lisamonozlai/)
 
-This project demonstrates how Python can support policy and program decision‑making by turning raw data into clear, interpretable insights. The analysis is available in three formats, each tailored to different audiences (technical, working‑level, and executive):
+This repository demonstrates a structured approach to turning raw data into decision-relevant insight using Python.
+
+The objective is not simply to analyze a dataset, but to illustrate how analytical workflows can inform policy and program prioritization, particularly in environments where resources are limited and tradeoffs matter.
+
+The full analysis is available in three formats, each tailored to a different audience:
 
 - [Jupyter Notebook](https://github.com/lisamonozlai/python-for-public-policy/blob/main/notebook/eda_diabetes_progression.ipynb)  
 - [PDF Report](https://github.com/lisamonozlai/python-for-public-policy/blob/main/report/eda_diabetes_progression.pdf)  
-- [One‑Page Brief](https://github.com/lisamonozlai/python-for-public-policy/blob/main/summary/eda_diabetes_progression_summary.pdf)
+- [One‑Page Summary](https://github.com/lisamonozlai/python-for-public-policy/blob/main/summary/eda_diabetes_progression_summary.pdf)
+
+---
+
+## Policy Framing
+
+Effective decisions begin with a clearly defined question:
+
+> **Which factors most influence diabetes progression, and how can that insight guide more effective interventions?**
+
+This framing mirrors real-world program design: before allocating funding or designing interventions, decision-makers must understand which variables exert the greatest influence on outcomes.
+
+---
 
 ## Dataset
-To demonstrate a data‑to‑decision workflow, I use a 2004 diabetes dataset (`diabetes.csv`) from the [University of Copenhagen](https://www4.stat.ncsu.edu/%7Eboos/var.select/diabetes.html). It includes standardized clinical and demographic information for 442 individuals.
 
-**Demographic variables**
+The analysis uses a 2004 diabetes dataset from the [University of Copenhagen](https://www4.stat.ncsu.edu/%7Eboos/var.select/diabetes.html). It contains standardized clinical and demographic information for 442 individuals and is well-suited for transparent exploratory analysis without extensive preprocessing.
 
-age — Age in years.
+### Demographic Variables
+- **age** — Age in years  
+- **sex** — Biological sex  
 
-sex — Biological sex (male or female).
+### Body Metrics
+- **bmi** — Body mass index  
+- **bp** — Average blood pressure  
 
-**Body metrics**
+### Cholesterol and Lipid Measures
+- **s1** — Total cholesterol  
+- **s2** — LDL cholesterol  
+- **s3** — HDL cholesterol  
+- **s4** — Total cholesterol-to-HDL ratio  
+- **s5** — Triglycerides  
+- **s6** — Baseline blood glucose  
 
-bmi — Body mass index, an indicator of body fat and metabolic risk.
+### Outcome Variable
+- **progression** — Diabetes progression one year after baseline  
 
-bp — Average blood pressure, related to heart and metabolic health.
+---
 
-**Cholesterol and lipid measures**
+## Analytical Approach
 
-s1 — Total cholesterol.
+The workflow follows a structured, decision-oriented sequence:
 
-s2 — Low-density lipoprotein (LDL, “bad” cholesterol).
+1. **Data Quality & Distribution Checks**  
+   Reviewed distributions to understand scale, spread, and potential anomalies.
 
-s3 — High-density lipoprotein (HDL, “good” cholesterol).
+2. **Demographic Comparisons**  
+   Compared progression across age groups and sex to assess baseline differences.
 
-s4 — Total cholesterol-to-HDL ratio.
+3. **Clinical Indicator Relationships**  
+   Visualized relationships between progression and health metrics using scatter plots.
 
-s5 — Triglycerides, often linked to insulin resistance.
+4. **Relative Strength of Association**  
+   Calculated linear trend slopes to compare how strongly each variable relates to progression.
 
-**Blood glucose**
+The emphasis is on interpretability and transparency rather than model complexity. In policy environments, clarity often matters more than algorithmic sophistication.
 
-s6 — Baseline blood glucose level.
+---
 
-**Outcome variable**
+## Key Findings
 
-Progression — Diabetes progression one year after baseline, used to assess how initial health measures relate to disease change over time.
+The analysis indicates:
 
-## Goals
-The analysis aims to identify which factors most influence diabetes progression so public health teams can focus their programs and interventions where they will have the greatest impact.
+- **Strongest associations:**  
+  - Body mass index (BMI)  
+  - Triglycerides (s5)
 
-## What I Did
-- Checked data quality and distributions  
-- Compared progression across age and sex groups  
-- Visualized relationships between health indicators and progression  
-- Used simple trend lines to compare the strength of relationships  
+  These variables exhibit the steepest trend slopes, indicating materially stronger relationships with progression than demographic characteristics.
 
-## What I Found
-- **Strongest influence:** body mass index (BMI) and triglycerides  
-- **Protective effect:** HDL (“good”) cholesterol  
-- **Moderate influence:** blood pressure and blood glucose  
-- **Limited influence:** age and sex  
+- **Protective relationship:**  
+  - HDL cholesterol (s3)
 
-These results align with medical expectations and highlight which factors may matter most.
+- **Moderate associations:**  
+  - Blood pressure  
+  - Blood glucose  
 
-## Other Research
-These findings are consistent with broader evidence:  
-- Studies show that people with increasing BMI are more likely to develop diabetes ([Nature, 2024](https://www.nature.com/articles/s41598-024-75179-6)).  
-- Elevated triglycerides are linked to insulin resistance, which contributes to faster progression ([BMC Public Health, 2025](https://pubmed.ncbi.nlm.nih.gov/40165126/); [IJMS, 2025](https://www.mdpi.com/1422-0067/26/20/9910)).
+- **Limited association:**  
+  - Age  
+  - Sex  
 
-## Policy Conclusions
-If designing a program to reduce diabetes progression, it may be most effective to prioritize interventions targeting BMI and triglycerides, as these factors show the strongest influence in both the analysis and the broader research literature.
+Notably, the slope magnitude for BMI is substantially larger than that of age, reinforcing that metabolic indicators appear more influential in this dataset than fixed demographic characteristics.
+
+---
+
+## Interpretation
+
+The relative strength of metabolic indicators compared to demographic variables suggests that modifiable risk factors may offer greater intervention leverage than fixed characteristics such as age or sex.
+
+While demographic segmentation can inform outreach strategies, clinical indicators appear more directly associated with measurable progression changes within this sample.
+
+---
+
+## Alignment with Broader Research
+
+These patterns are consistent with established evidence:
+
+- Higher BMI is a known risk factor for type 2 diabetes development and progression ([Nature, 2024](https://www.nature.com/articles/s41598-024-75179-6)).
+- Elevated triglycerides are linked to insulin resistance and metabolic dysfunction ([BMC Public Health, 2025](https://pubmed.ncbi.nlm.nih.gov/40165126/); [IJMS, 2025](https://www.mdpi.com/1422-0067/26/20/9910)).
+
+The consistency between exploratory analysis and broader literature strengthens confidence that the observed relationships are directionally meaningful.
+
+---
+
+## Policy Implications
+
+In resource-constrained environments, prioritization is essential.
+
+If designing a program to reduce diabetes progression, this analysis suggests beginning with:
+
+- BMI-focused interventions (nutrition, physical activity, weight management)
+- Triglyceride-focused interventions (dietary counseling, lipid management, metabolic health strategies)
+
+The broader takeaway is methodological: structured, transparent analysis can clarify which levers may deliver the highest potential return on intervention effort.
+
+---
+
+## Limitations
+
+This analysis is exploratory and identifies associations rather than causal effects.
+
+The comparison relies on simple linear relationships and does not account for interaction effects, non-linear dynamics, or longitudinal variation beyond the one-year progression measure.
+
+Findings should therefore inform prioritization discussions rather than replace deeper clinical modeling or randomized evaluation.
+
+---
+
+## Why This Project Matters
+
+This repository demonstrates how Python can:
+
+- Convert raw data into interpretable insight  
+- Support evidence-informed decision-making  
+- Provide a transparent, reproducible workflow  
+- Communicate findings across technical and non-technical audiences  
+
+The same analytical framework can be adapted to other policy, program, or operational questions where decision-makers must determine which factors matter most.
+
+---
 
 ## License
+
 MIT
