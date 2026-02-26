@@ -10,6 +10,38 @@ This project demonstrates how Python can support policy and program decision‑m
 ## Dataset
 To demonstrate a data‑to‑decision workflow, I use a 2004 diabetes dataset (`diabetes.csv`) from the [University of Copenhagen](https://www4.stat.ncsu.edu/%7Eboos/var.select/diabetes.html). It includes standardized clinical and demographic information for 442 individuals.
 
+**Demographic variables**
+
+age — Age in years.
+
+sex — Biological sex (male or female).
+
+**Body metrics**
+
+bmi — Body mass index, an indicator of body fat and metabolic risk.
+
+bp — Average blood pressure, related to heart and metabolic health.
+
+**Cholesterol and lipid measures**
+
+s1 — Total cholesterol.
+
+s2 — Low-density lipoprotein (LDL, “bad” cholesterol).
+
+s3 — High-density lipoprotein (HDL, “good” cholesterol).
+
+s4 — Total cholesterol-to-HDL ratio.
+
+s5 — Triglycerides, often linked to insulin resistance.
+
+**Blood glucose**
+
+s6 — Baseline blood glucose level.
+
+**Outcome variable**
+
+Progression — Diabetes progression one year after baseline, used to assess how initial health measures relate to disease change over time.
+
 ## Goals
 The analysis aims to identify which factors most influence diabetes progression so public health teams can focus their programs and interventions where they will have the greatest impact.
 
